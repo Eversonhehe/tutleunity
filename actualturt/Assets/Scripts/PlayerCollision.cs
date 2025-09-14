@@ -1,16 +1,11 @@
 using UnityEngine;
 
-public class PlayerCollision : MonoBehaviour
-{
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+public class PlayerCollision : MonoBehaviour{
+    void OnCollisionEnter (Collision collisionInfo)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (collisionInfo.collider.tag == "obstacle")
+        {
+            Debug.Log("obstacle was hit");
+        }
     }
 }
