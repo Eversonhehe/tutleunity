@@ -14,6 +14,9 @@ public class BoatSeatController : MonoBehaviour
     public float decelerationRate = 2f;   // How fast it slows when not pressing keys
     public float turnSpeed = 50f;
 
+
+    public Camera boatCamera;
+    public Camera playerCamera;
     private float currentSpeed = 0f;
     private bool isSeated = false;
     private Transform player;
@@ -22,6 +25,8 @@ public class BoatSeatController : MonoBehaviour
 
     private void Start()
     {
+        boatCamera.enabled = false;
+        boatCamera.GetComponent<AudioListener>().enabled = false;
         rb = GetComponent<Rigidbody>();
         if (rb == null)
         {
@@ -48,6 +53,8 @@ public class BoatSeatController : MonoBehaviour
         {
             if (!isSeated)
             {
+            
+
                 float dist = Vector3.Distance(player.position, transform.position);
                 if (dist <= enterDistance && Input.GetKeyDown(enterKey))
                 {
@@ -71,6 +78,10 @@ public class BoatSeatController : MonoBehaviour
     private void EnterSeat()
     {
         isSeated = true;
+        playerCamera.enabled = false;
+        boatCamera.enabled = true;
+        playerCamera.GetComponent<AudioListener>().enabled = false;
+        boatCamera.GetComponent<AudioListener>().enabled = true;
         player.SetParent(seatPosition);
         player.position = seatPosition.position;
         player.rotation = seatPosition.rotation;
@@ -83,6 +94,10 @@ public class BoatSeatController : MonoBehaviour
 
     private void ExitSeat()
     {
+        playerCamera.enabled = true;
+        boatCamera.enabled = false;
+        playerCamera.GetComponent<AudioListener>().enabled = true;
+        boatCamera.GetComponent<AudioListener>().enabled = false;
         isSeated = false;
         player.SetParent(null);
 

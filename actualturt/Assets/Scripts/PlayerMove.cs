@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -117,14 +118,19 @@ public class PlayerMovement : MonoBehaviour
 
     // Move the character
     characterController.Move(moveDirection * Time.deltaTime);
+// --- Camera rotation ---
+if (canMove && playerCamera != null)
+{
+    // Vertical rotation (look up/down)
+    rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
+    rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+    playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+
+    // Horizontal rotation (rotate player body)
+    transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+}
 
     // Handle camera rotation
-    if (canMove)
-    {
-        rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-        rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
-    }
+   
   }
 }
